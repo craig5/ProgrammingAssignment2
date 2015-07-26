@@ -39,6 +39,8 @@ cacheSolve <- function(x, ...) {
 	if(length(names(x)) != 4) {
 		stop('Not a valid cacheMatrix object.')
 	}
+	# If the names do not match the expected list,
+	# then the object isn't correct... or was modified.
 	if(! all(names(x) == c('set', 'get', 'setinverse', 'getinverse'))) {
 		stop('Not a valid cacheMatrix object.')
 	}
@@ -49,11 +51,13 @@ cacheSolve <- function(x, ...) {
 		return(inverse)
 	}
 	# If the inverse IS null,
+	# copy the data into a locally scoped variable,
 	# then compute the inverse and store it in the object.
-	# (I.e. "cache" the solution.)
+	# (I.e. "cache" the solution in the object/list.)
 	data <- x$get()
 	inverse <- solve(data, ...)
 	x$setinverse(inverse)
+	# Return the object and print it.
 	inverse
 }
 #
